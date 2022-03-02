@@ -86,24 +86,28 @@ it('calls observer.next() if already in a digest cycle, wraps in $scope.$apply i
 it('reports fatalError if observer.next() throws', () => {
   const fatalError = jest.fn();
   const $scope = new Scope();
-  subscribeWithScope(
-    $scope as any,
-    Rx.of(undefined),
-    {
-      next() {
-        throw new Error('foo bar');
+  try {
+    subscribeWithScope(
+      $scope as any,
+      Rx.of(undefined),
+      {
+        next() {
+          throw new Error('foo bar');
+        },
       },
-    },
-    fatalError
-  );
+      fatalError
+    );
 
-  expect(fatalError.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    [Error: foo bar],
-  ],
-]
-`);
+    expect(fatalError.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          [Error: foo bar],
+        ],
+      ]
+    `);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
 
 it('reports fatal error if observer.error is not defined and observable errors', () => {
@@ -111,79 +115,95 @@ it('reports fatal error if observer.error is not defined and observable errors',
   const $scope = new Scope();
   const error = new Error('foo');
   error.stack = `${error.message}\n---stack trace ---`;
-  subscribeWithScope($scope as any, Rx.throwError(error), undefined, fatalError);
+  try {
+    subscribeWithScope($scope as any, Rx.throwError(error), undefined, fatalError);
 
-  expect(fatalError.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    [Error: Uncaught error in subscribeWithScope(): foo
----stack trace ---],
-  ],
-]
-`);
+    expect(fatalError.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          [Error: Uncaught error in subscribeWithScope(): foo
+      ---stack trace ---],
+        ],
+      ]
+    `);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
 
 it('reports fatal error if observer.error throws', () => {
   const fatalError = jest.fn();
   const $scope = new Scope();
-  subscribeWithScope(
-    $scope as any,
-    Rx.throwError(new Error('foo')),
-    {
-      error: () => {
-        throw new Error('foo');
+  try {
+    subscribeWithScope(
+      $scope as any,
+      Rx.throwError(new Error('foo')),
+      {
+        error: () => {
+          throw new Error('foo');
+        },
       },
-    },
-    fatalError
-  );
+      fatalError
+    );
 
-  expect(fatalError.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    [Error: foo],
-  ],
-]
-`);
+    expect(fatalError.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          [Error: foo],
+        ],
+      ]
+    `);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
 
 it('does not report fatal error if observer.error handles the error', () => {
   const fatalError = jest.fn();
   const $scope = new Scope();
-  subscribeWithScope(
-    $scope as any,
-    Rx.throwError(new Error('foo')),
-    {
-      error: () => {
-        // noop, swallow error
+  try {
+    subscribeWithScope(
+      $scope as any,
+      Rx.throwError(new Error('foo')),
+      {
+        error: () => {
+          // noop, swallow error
+        },
       },
-    },
-    fatalError
-  );
+      fatalError
+    );
 
-  expect(fatalError.mock.calls).toEqual([]);
+    expect(fatalError.mock.calls).toEqual([]);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
 
 it('reports fatal error if observer.complete throws', () => {
   const fatalError = jest.fn();
   const $scope = new Scope();
-  subscribeWithScope(
-    $scope as any,
-    Rx.EMPTY,
-    {
-      complete: () => {
-        throw new Error('foo');
+  try {
+    subscribeWithScope(
+      $scope as any,
+      Rx.EMPTY,
+      {
+        complete: () => {
+          throw new Error('foo');
+        },
       },
-    },
-    fatalError
-  );
+      fatalError
+    );
 
-  expect(fatalError.mock.calls).toMatchInlineSnapshot(`
-Array [
-  Array [
-    [Error: foo],
-  ],
-]
-`);
+    expect(fatalError.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          [Error: foo],
+        ],
+      ]
+    `);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
 
 it('preserves the context of the observer functions', () => {
@@ -205,5 +225,9 @@ it('preserves the context of the observer functions', () => {
     },
   };
 
-  subscribeWithScope($scope as any, Rx.throwError(new Error('foo')), observer2);
+  try {
+    subscribeWithScope($scope as any, Rx.throwError(new Error('foo')), observer2);
+  } catch (e) {
+    fail('Unexpected exception thrown: ' + e);
+  }
 });
