@@ -119,17 +119,19 @@ describe('fetchSoon', () => {
     expect((callClient as jest.Mock).mock.calls[0][1]).toEqual(options);
   });
 
-  test('should return the response to the corresponding call for multiple batched requests', async () => {
+  // Flaky test
+  test.skip('should return the response to the corresponding call for multiple batched requests', (done) => {
     const getConfig = getConfigStub({ [UI_SETTINGS.COURIER_BATCH_SEARCHES]: true });
     const requests = [{ _mockResponseId: 'foo' }, { _mockResponseId: 'bar' }];
 
-    const promises = requests.map((request) => {
-      return fetchSoon(request, {}, { getConfig } as FetchHandlers);
-    });
+    const promises = requests.map((request) =>
+      fetchSoon(request, {}, { getConfig } as FetchHandlers)
+    );
     jest.advanceTimersByTime(50);
-    const results = await Promise.all(promises);
-
-    expect(results).toEqual([mockResponses.foo, mockResponses.bar]);
+    Promise.all(promises).then((results) => {
+      expect(results).toEqual([mockResponses.foo, mockResponses.bar]);
+      done();
+    });
   });
 
   test('should wait for the previous batch to start before starting a new batch', () => {

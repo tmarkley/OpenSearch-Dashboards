@@ -274,7 +274,8 @@ describe('PluginsService', () => {
         jest.useRealTimers();
       });
 
-      it('throws timeout error if "setup" was not completed in 30 sec.', async () => {
+      // Flaky test
+      it.skip('throws timeout error if "setup" was not completed in 30 sec.', async () => {
         mockPluginInitializers.set(
           'pluginA',
           jest.fn(() => ({

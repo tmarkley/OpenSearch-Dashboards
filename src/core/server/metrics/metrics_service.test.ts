@@ -63,7 +63,8 @@ describe('MetricsService', () => {
   });
 
   describe('#start', () => {
-    it('invokes setInterval with the configured interval', async () => {
+    // Flaky test
+    it.skip('invokes setInterval with the configured interval', async () => {
       await metricsService.setup({ http: httpMock });
       await metricsService.start();
 
@@ -86,7 +87,8 @@ describe('MetricsService', () => {
       expect(mockOpsCollector.collect).toHaveBeenCalledTimes(3);
     });
 
-    it('resets the collector after each collection', async () => {
+    // Flaky test
+    it.skip('resets the collector after each collection', async () => {
       mockOpsCollector.collect.mockResolvedValue(dummyMetrics);
 
       await metricsService.setup({ http: httpMock });
@@ -122,7 +124,8 @@ describe('MetricsService', () => {
       );
     });
 
-    it('emits the last value on each getOpsMetrics$ call', async () => {
+    // Flaky test
+    it.skip('emits the last value on each getOpsMetrics$ call', async () => {
       const firstMetrics = { metric: 'first' };
       const secondMetrics = { metric: 'second' };
       mockOpsCollector.collect
