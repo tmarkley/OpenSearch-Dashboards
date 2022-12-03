@@ -28,5 +28,4 @@ target
 /packages/osd-pm/dist
 /packages/osd-test/src/functional_test_runner/__tests__/fixtures/
 /packages/osd-test/src/functional_test_runner/lib/config/__tests__/fixtures/
-/packages/osd-ui-framework/dist
 /packages/osd-ui-shared-deps/flot_charts

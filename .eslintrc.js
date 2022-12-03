@@ -122,12 +122,6 @@ module.exports = {
      * Temporarily disable some react rules for specific plugins, remove in separate PRs
      */
     {
-      files: ['packages/osd-ui-framework/**/*.{js,mjs,ts,tsx}'],
-      rules: {
-        'jsx-a11y/no-onchange': 'off',
-      },
-    },
-    {
       files: ['src/plugins/eui_utils/**/*.{js,mjs,ts,tsx}'],
       rules: {
         'react-hooks/exhaustive-deps': 'off',
@@ -421,7 +415,7 @@ module.exports = {
      * Files that ARE NOT allowed to use devDependencies
      */
     {
-      files: ['packages/osd-ui-framework/**/*.js', 'packages/osd-interpreter/**/*.js'],
+      files: ['packages/osd-interpreter/**/*.js'],
       rules: {
         'import/no-extraneous-dependencies': [
           'error',
@@ -438,8 +432,6 @@ module.exports = {
      */
     {
       files: [
-        'packages/osd-ui-framework/**/*.test.js',
-        'packages/osd-ui-framework/Gruntfile.js',
         'packages/osd-opensearch/src/**/*.js',
         'packages/osd-interpreter/tasks/**/*.js',
         'packages/osd-interpreter/src/plugin/**/*.js',
@@ -676,20 +668,6 @@ module.exports = {
             message: 'Please use @elastic/safer-lodash-set instead',
           },
         ],
-      },
-    },
-
-    /**
-     * disable jsx-a11y for osd-ui-framework
-     */
-    {
-      files: ['packages/osd-ui-framework/**/*.js'],
-      rules: {
-        'jsx-a11y/click-events-have-key-events': 'off',
-        'jsx-a11y/anchor-has-content': 'off',
-        'jsx-a11y/tabindex-no-positive': 'off',
-        'jsx-a11y/label-has-associated-control': 'off',
-        'jsx-a11y/aria-role': 'off',
       },
     },
     {
