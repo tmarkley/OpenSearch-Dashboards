@@ -1,0 +1,17 @@
+name: Release Notes Drafter
+
+on:
+  pull_request:
+    branches: [ '**', '!feature/**' ]
+  push:
+    branches:
+      - main
+
+jobs:
+  draft_release_notes:
+    name: Draft Release Notes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
